@@ -1,9 +1,6 @@
 from PIL import ImageGrab
 import screeninfo
 
-#TODO: get screen information and make it cross platform
-
-
 def getScreen(monitor:Monitor):
 
     screen = ImageGrab.grab(all_screens=True,bbox=(
