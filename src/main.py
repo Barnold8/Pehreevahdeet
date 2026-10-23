@@ -1,3 +1,5 @@
+import my_test
+
 try:
     from PIL import ImageGrab
     import screeninfo
@@ -23,15 +25,7 @@ def getScreen(monitor:Monitor)-> PIL.Image.Image: # what in the world is that ty
 def main():
     
     if __name__ == "__main__":
+        test_main()        
         
-       
-        monitors = screeninfo.get_monitors()
-        img = getScreen()
-        #x = getScreen(monitors[1])
-        #x.show()
-
-
-        pass
-       
 
 main()
