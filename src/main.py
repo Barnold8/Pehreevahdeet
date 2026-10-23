@@ -1,7 +1,9 @@
 from PIL import ImageGrab
 import screeninfo
 
-def getScreen(monitor:Monitor):
+#TODO force venvpro in a main function to make user process easier
+
+def getScreen(monitor:Monitor)-> PIL.Image.Image: # what in the world is that type? Image file with an Image class?
 
     screen = ImageGrab.grab(all_screens=True,bbox=(
     
@@ -12,14 +14,16 @@ def getScreen(monitor:Monitor):
         
             )
     )
-    screen.show()
+    return screen 
 
-monitors = screeninfo.get_monitors()
+def main():
+    
+    if __name__ == "__main__":
+        monitors = screeninfo.get_monitors()
 
-for screen in monitors:
+        x = getScreen(monitors[1])
+        x.show()
 
-    print(f"(x,y) = {screen.x},{screen.y} | (w,h) = {screen.width},{screen.height}")
 
 
-getScreen(monitors[1])
-
+main()
