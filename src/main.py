@@ -1,5 +1,11 @@
-from PIL import ImageGrab
-import screeninfo
+import venvpro as vp
+
+try:
+    from PIL import ImageGrab
+    import screeninfo
+
+except ModuleNotFoundError as MNFE:
+    print("ERROR")
 
 #TODO force venvpro in a main function to make user process easier
 
@@ -19,10 +25,15 @@ def getScreen(monitor:Monitor)-> PIL.Image.Image: # what in the world is that ty
 def main():
     
     if __name__ == "__main__":
-        monitors = screeninfo.get_monitors()
+        
+        vp.venv("venv",[],"requirements.txt")
 
-        x = getScreen(monitors[1])
-        x.show()
+        
+        pass
+        #monitors = screeninfo.get_monitors()
+
+        #x = getScreen(monitors[1])
+        #x.show()
 
 
 
