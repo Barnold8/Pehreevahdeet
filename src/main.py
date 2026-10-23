@@ -1,13 +1,11 @@
-import venvpro as vp
-
 try:
     from PIL import ImageGrab
     import screeninfo
+    import pytesseract
 
 except ModuleNotFoundError as MNFE:
-    print("ERROR")
+    print(f"Encountered an error when importing library code.\n\nERROR:{MNFE}")
 
-#TODO force venvpro in a main function to make user process easier
 
 def getScreen(monitor:Monitor)-> PIL.Image.Image: # what in the world is that type? Image file with an Image class?
 
@@ -26,15 +24,14 @@ def main():
     
     if __name__ == "__main__":
         
-        vp.venv("venv",[],"requirements.txt")
-
-        
-        pass
-        #monitors = screeninfo.get_monitors()
-
+       
+        monitors = screeninfo.get_monitors()
+        img = getScreen()
         #x = getScreen(monitors[1])
         #x.show()
 
 
+        pass
+       
 
 main()
