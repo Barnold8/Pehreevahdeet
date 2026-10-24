@@ -1,11 +1,8 @@
-from os import walk
-
 try:
 
     from PIL import ImageGrab
     from PIL import Image
     import screeninfo
-    import pytesseract
 
 except ModuleNotFoundError as MNFE:
     print(f"Encountered an error when importing library code.\n\nERROR:{MNFE}")
@@ -47,17 +44,15 @@ def loadImages(path:str):
 def main():
     
     if __name__ == "__main__":
-               
-        #monitors = screeninfo.get_monitors()
-        #img = getScreen(0)
-        #x = getScreen(monitors[1])
-        #x.show()
 
+        if not isTesseract():
+            return -1
+        
+        #monitors = screeninfo.get_monitors()
+        #img = getScreen()
+        #x.show()
         print("Grabbing images")
 
         images = loadImages("samples")
-
-        for img in images:
-            print(pytesseract.image_to_string(img))
 
 main()
