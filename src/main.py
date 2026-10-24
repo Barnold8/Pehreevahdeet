@@ -1,7 +1,8 @@
-import my_test
+from os import walk
 
 try:
     from PIL import ImageGrab
+    from PIL import Image
     import screeninfo
     import pytesseract
 
@@ -22,10 +23,40 @@ def getScreen(monitor:Monitor)-> PIL.Image.Image: # what in the world is that ty
     )
     return screen 
 
+def loadImages(path:str):
+
+    PATH   = path
+    files  = []
+    images = []
+
+    
+    for (dirpath, dirnames, filenames) in walk(path):
+        files.extend(filenames)
+
+    if len(files) <= 0:
+        print(f"Warning: no files found in {path}")
+        return files
+
+    for img in files:
+        fPath = f"{path}/{img}"
+        images.append(Image.open(fPath))
+
+    return images
+
 def main():
     
     if __name__ == "__main__":
-        test_main()        
+               
+        #monitors = screeninfo.get_monitors()
+        #img = getScreen(0)
+        #x = getScreen(monitors[1])
+        #x.show()
+
+        print("Grabbing images")
+
+        images = loadImages("samples")
+
         
+       
 
 main()
