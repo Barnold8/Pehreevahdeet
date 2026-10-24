@@ -1,6 +1,7 @@
 from os import walk
 
 try:
+
     from PIL import ImageGrab
     from PIL import Image
     import screeninfo
