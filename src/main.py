@@ -56,7 +56,7 @@ def main():
 
         images = loadImages("samples")
 
-        
-       
+        for img in images:
+            print(pytesseract.image_to_string(img))
 
 main()
