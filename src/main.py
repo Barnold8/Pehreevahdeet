@@ -8,6 +8,8 @@ except ModuleNotFoundError as MNFE:
     print(f"Encountered an error when importing library code.\n\nERROR:{MNFE}")
 
 
+#TODO: find some easy way of setting up OCR on a system that isnt a headache
+
 def getScreen(monitor:Monitor)-> PIL.Image.Image: # what in the world is that type? Image file with an Image class?
 
     screen = ImageGrab.grab(all_screens=True,bbox=(
