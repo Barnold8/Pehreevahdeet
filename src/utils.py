@@ -1,3 +1,8 @@
+import sys
+import screeninfo
+
+def getMonitors():
+    return screeninfo.get_monitors()
 
 def errPrint(*args:str, **kwargs:str)->None:
     print(*args, file=sys.stderr, **kwargs)
