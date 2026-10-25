@@ -34,12 +34,11 @@ def OCR(image: PIL.Image.Image,api_key:str, isOverlay:bool = False,lang: str ='a
             'isOverlayRequired': isOverlay,
             'apikey': api_key,
             'language': lang,
-            'base64Image': {"data" : imageToBase64(image)}
     }
 
     r = requests.post(
             API_URL,
-          
+            files = {"payload_img":imageToBase64(image)}, 
             data=payload,              
     )
     return r.content.decode()
