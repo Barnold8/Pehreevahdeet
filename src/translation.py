@@ -1,11 +1,11 @@
 import requests
 
 
-def detectLanguage(api_key: str,input_text: str)-> :
+def detectLanguage(api_key: str,input_text: str) -> str:
  
-    API_URL = "https://multi-format-ai-translator-the-most-complete.p.rapidapi.com/detect"
-
-    payload = input_text
+    API_URL  = "https://multi-format-ai-translator-the-most-complete.p.rapidapi.com/detect"
+    ERR_MESG = "detectfail"
+    payload  = input_text
 
     headers = {
 	    "x-rapidapi-key" : api_key,
@@ -13,11 +13,19 @@ def detectLanguage(api_key: str,input_text: str)-> :
 	    "Content-Type"   : "text/plain"
     }
 
-    response = requests.post(API_URL, data=payload, headers=headers)
-    response = response.json()
+    try:
+        response = requests.post(API_URL, data=payload, headers=headers)
+        response = response.json()
+    except Exception as e:
+        print("Error: problem ocurred while contacting the translation API - DETECT")
+        return ERR_MESG
+    try:
+        language = response["data"]
+    except KeyError as KE:
+        print("Error: problem ocurred while accessing detection response - DETECT")
+        return ERR_MESG
 
-
-    return response.json()
+    return language
 
 def translate(api_key: str,input_text: str,source: str,target_lang: str)->str:
 
