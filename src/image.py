@@ -3,7 +3,7 @@ import os
 import io
 import base64
 import requests
-from PIL import Image
+from PIL import Image, ImageGrab
 
 def loadImages(path:str):
 
