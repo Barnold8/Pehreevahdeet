@@ -12,6 +12,9 @@ except ModuleNotFoundError as MNFE:
 
 #TODO: find some easy way of setting up OCR on a system that isnt a headache
 
+def errPrint(*args:str, **kwargs:str)->None:
+    print(*args, file=sys.stderr, **kwargs)
+
 def imageToBase64(image: PIL.Image.Image):
 
     buffer = io.BytesIO()
@@ -88,9 +91,9 @@ def getAPIKey(path:str)->str:
             try:
                 return file.readlines()[0]
             except IndexError:
-                print(f"Error: {path} is either empty or corrupt")
+                errPrint(f"Error: {path} is either empty or corrupt")
     except FileNotFoundError as FNFE:
-        print(f"Error: {path} does not exist")
+        errPrint(f"Error: {path} does not exist")
 
 
 def main():
@@ -106,7 +109,6 @@ def main():
 
         images = loadImages("samples")
 
-        print(KEY)
         #for img in images:
             #print(OCR(img),KEY)
 
