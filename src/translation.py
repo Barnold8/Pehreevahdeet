@@ -27,7 +27,7 @@ def detectLanguage(api_key: str,input_text: str) -> str:
 
     return language
 
-def translate(api_key: str,input_text: str,source: str,target_lang: str)->str:
+def translateLanguage(api_key: str,input_text: str,source: str,target_lang: str)->str:
 
     API_URL  = "https://multi-format-ai-translator-the-most-complete.p.rapidapi.com/translate"
 
@@ -42,8 +42,9 @@ def translate(api_key: str,input_text: str,source: str,target_lang: str)->str:
     }
 
     response = requests.post(API_URL)
+    response.json() 
 
-    print(response.json()) 
+
     return ""
 
 
