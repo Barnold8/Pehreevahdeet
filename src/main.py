@@ -89,7 +89,8 @@ def getAPIKey(path:str)->str:
     try:
         with open(path,'r') as file:
             try:
-                return file.readlines()[0]
+                key =  file.readlines()[0]
+                return  ''.join(key.split())
             except IndexError:
                 errPrint(f"Error: {path} is either empty or corrupt")
     except FileNotFoundError as FNFE:
@@ -104,13 +105,11 @@ def main():
         #img = getScreen()
         #x.show()
         #print("Grabbing images")
-
+        
+        images = loadImages("samples")
         KEY = getAPIKey('API_KEY')
 
-        images = loadImages("samples")
-
-        #for img in images:
-            #print(OCR(img),KEY)
-
+        for img in images:
+            print(OCR(img,KEY))
 
 main()
