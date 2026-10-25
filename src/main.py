@@ -83,8 +83,15 @@ def loadImages(path:str):
 
 def getAPIKey(path:str)->str:
 
-    with open(path,'r') as file:
-        return file.read()
+    try:
+        with open(path,'r') as file:
+            try:
+                return file.readlines()[0]
+            except IndexError:
+                print(f"Error: {path} is either empty or corrupt")
+    except FileNotFoundError as FNFE:
+        print(f"Error: {path} does not exist")
+
 
 def main():
     
@@ -98,6 +105,8 @@ def main():
         KEY = getAPIKey('API_KEY')
 
         images = loadImages("samples")
+
+        print(KEY)
         #for img in images:
             #print(OCR(img),KEY)
 
