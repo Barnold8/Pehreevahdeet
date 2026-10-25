@@ -15,31 +15,27 @@ except ModuleNotFoundError as MNFE:
 def errPrint(*args:str, **kwargs:str)->None:
     print(*args, file=sys.stderr, **kwargs)
 
-def imageToBase64(image: PIL.Image.Image):
-
+def imageToBase64(image: PIL.Image.Image) -> str:
+    
     buffer = io.BytesIO()
-    image.save(buffer,format="JPEG")
-    buffer.seek(0)
-    image_in_bytes = buffer.read()
+    image.save(buffer, format="PNG")
+    img_bytes = buffer.getvalue()
+    base64_str = base64.b64encode(img_bytes).decode('utf-8')
+    return f"data:image/png;base64,{base64_str}"
 
-    return base64.b64encode(image_in_bytes)
-
-def OCR(image: PIL.Image.Image,api_key:str, isOverlay:bool = False,lang: str ='auto'):
-
-    # taken from https://github.com/Zaargh/ocr.space_code_example/blob/master/ocrspace_example.py
-
+def OCR(image: PIL.Image.Image, api_key: str, isOverlay: bool = False, lang: str = 'eng'):
     API_URL = 'https://api.ocr.space/parse/image'
+        
 
     payload = {
-            'isOverlayRequired': isOverlay,
-            'apikey': api_key,
-            'language': lang,
+         'apikey': api_key,
+         'base64Image': imageToBase64(image),
+         'isOverlayRequired': str(isOverlay).lower(), 
+         'language': lang 
     }
-
     r = requests.post(
-            API_URL,
-            files = {"payload_img":imageToBase64(image)}, 
-            data=payload,              
+        API_URL,
+        data=payload
     )
     return r.content.decode()
 
@@ -107,7 +103,6 @@ def main():
         
         images = loadImages("samples")
         KEY = getAPIKey('API_KEY')
-
         for img in images:
             print(OCR(img,KEY))
 
