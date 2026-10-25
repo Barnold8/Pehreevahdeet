@@ -1,4 +1,4 @@
-
+import sys
 def errPrint(*args:str, **kwargs:str)->None:
     print(*args, file=sys.stderr, **kwargs)
 
