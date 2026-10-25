@@ -1,5 +1,5 @@
 import requests
-
+import utils
 
 def detectLanguage(api_key: str,input_text: str) -> str:
  
@@ -17,35 +17,39 @@ def detectLanguage(api_key: str,input_text: str) -> str:
         response = requests.post(API_URL, data=payload, headers=headers)
         response = response.json()
     except Exception as e:
-        print("Error: problem ocurred while contacting the translation API - DETECT")
+        errPrint("Error: problem ocurred while contacting the translation API - DETECT")
         return ERR_MESG
     try:
         language = response["data"]
     except KeyError as KE:
-        print("Error: problem ocurred while accessing detection response - DETECT")
+        errPrint("Error: problem ocurred while accessing detection response - DETECT")
         return ERR_MESG
 
     return language
 
-def translateLanguage(api_key: str,input_text: str,source: str,target_lang: str)->str:
+def translateLanguage(api_key: str,input_text: str,source_lang: str,target_lang: str)->str:
 
-    API_URL  = "https://multi-format-ai-translator-the-most-complete.p.rapidapi.com/translate"
+    url = "https://multi-format-ai-translator-the-most-complete.p.rapidapi.com/translate"
 
-    querystring = {"source":"auto","target":target}
+    querystring = {"source":source_lang,"target":target_lang}
 
-    payload = input_text
-
+    payload = "ik ben een meisje" 
     headers = {
-	    "x-rapidapi-key": api_key,  
-        "x-rapidapi-host": "multi-format-ai-translator-the-most-complete.p.rapidapi.com",
+	    "x-rapidapi-key": api_key , 
+	    "x-rapidapi-host": "multi-format-ai-translator-the-most-complete.p.rapidapi.com",
 	    "Content-Type": "text/plain"
     }
 
-    response = requests.post(API_URL)
-    response.json() 
+    try:
+        response = requests.post(API_URL, data=payload, headers=headers)
+        response = response.json()
+    except Exception as e:
+        errPrint("Error: problem ocurred while contacting the translation API - TRANSLATE")
+        return ERR_MESG
+    try:
+        language = response["data"]["translated_text"]
+    except KeyError as KE:
+        errPrint("Error: problem ocurred while accessing detection response - TRANSLATE")
+        return ERR_MESG
 
-
-    return ""
-
-
-
+    return language
