@@ -6,12 +6,14 @@ class Screen:
 
 class Image:
     SCREENSHOT_AREA      = [1920,1080]
+    X_OFFSET             = 0
+    Y_OFFSET             = 0
 
 class Language:
     TARGET_LANGUAGE      = 'en'
 
 class Dev:
-    SHOW_WARNINGS        = False
+    SHOW_WARNINGS        = True
     SHOW_SCREENGRABS     = False
     SHOW_SETTINGS        = False
     RUN_COUNT            = 2
@@ -21,9 +23,9 @@ def loadConfig(path:str) -> None:
 
     try:
 
-        with open("path","r") as file:
+        with open(path,"r") as file:
             content = json.load()
-    
+            print(content)    
             # Screen
 
             Screen.MONITOR_INDEX        = content["screen"]["monitor_index"]
@@ -34,7 +36,9 @@ def loadConfig(path:str) -> None:
             area = content["image"]["screenshot_area"]
             area = area.split("x")
 
-            Image.SCREENSHOT_AREA = area 
+            Image.SCREENSHOT_AREA = area
+            Image.X_OFFSET        = content["image"]["x_offset"]
+            Image.Y_OFFSET        = content["image"]["y_offset"] 
 
             # Settings
 
@@ -47,8 +51,6 @@ def loadConfig(path:str) -> None:
             Dev.SHOW_SETTINGS    = content["dev"]["show_settings"]
             Dev.RUN_COUNTS       = contents["dev"]["run_counts"]
         
-
-
     except FileNotFoundError as FNFE:
         if Dev.SHOW_WARNINGS:
             print(f"loadConfig | Warning: {path} could not be found or the file could not be found. Program settings are staying as their default.")
@@ -70,6 +72,8 @@ Image
 {line}
 
     Screenshot area:        {Image.SCREENSHOT_AREA[0]}x{Image.SCREENSHOT_AREA[1]}
+    X offset                {Image.X_OFFSET}
+    Y offset                {Image.Y_OFFSET}
 
 Language
 {line}   
