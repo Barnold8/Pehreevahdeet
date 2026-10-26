@@ -1,9 +1,4 @@
 try:
-    # Needed lib code
-    import time
-    import json
-    from typing import List
-    # My own code
     import utils
     import image as img
     import translation as tn
@@ -25,15 +20,14 @@ def main():
 
         while(running):
 
-            sleepInNano(POLL_RATE) # free up cpu usage
+            utils.sleepInNano(POLL_RATE) # free up cpu usage
             screen      = img.getScreen(monitors[0])
             out         = img.OCR(screen,OCR_KEY)
-            text        = getMessage(out)
+            text        = img.getMessage(out)
             
-            for sentence in splitSentences(text):
+            for sentence in utils.splitSentences(text):
                 translation = tn.translateLanguage(TRANSLATION_KEY,sentence,'auto','en')
-                print(f"HI: {translation}")
+                print(f"Text to be translated: {text}\ntranslated text:{translation}")
 
-            running = False
-            
+                        
 main()

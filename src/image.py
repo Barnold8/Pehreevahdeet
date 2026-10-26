@@ -1,7 +1,7 @@
-import os
 import io
 import base64
 import requests
+import json
 from PIL import Image, ImageGrab
 
 def loadImages(path:str):

@@ -1,5 +1,6 @@
 import sys
 import screeninfo
+import time
 
 def sleepInNano(nano_seconds: int)-> None:
     time.sleep(nano_seconds/1000000.0)
