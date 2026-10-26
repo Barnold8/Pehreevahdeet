@@ -1,5 +1,6 @@
 venv
 __pycache__/
 samples
-API_KEY
+API_KEY_OCR
+API_KEY_TRANSLATE
 
