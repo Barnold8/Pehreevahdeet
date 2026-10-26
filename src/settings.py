@@ -36,6 +36,7 @@ def loadConfig(path:str) -> None:
 
             area = content["image"]["screenshot_area"]
             area = area.split("x")
+            area = [int(x) for x in area]
 
             Image.SCREENSHOT_AREA = area
             Image.X_OFFSET        = content["image"]["x_offset"]
