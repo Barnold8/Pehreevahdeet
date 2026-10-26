@@ -2,7 +2,8 @@ import io
 import base64
 import requests
 import json
-from PIL import Image, ImageGrab
+import numpy as np
+from PIL import Image, ImageGrab,ImageChops
 
 def loadImages(path:str):
 
@@ -10,7 +11,6 @@ def loadImages(path:str):
     files  = []
     images = []
 
-    
     for (dirpath, dirnames, filenames) in os.walk(path):
         files.extend(filenames)
 
@@ -71,3 +71,19 @@ def getMessage(unserialised:str) -> List[str]:
         
     except KeyError as KE:
         errPrint(f"Error: could not read from the OCR API output.\n\nFULL ERROR: {KE}")
+
+def getImageDiff(img1:PIL.Image.Image,img2:PIL.Image.Image)->float:
+
+
+    if img1.size != img2.size or img1.mode != img2.mode:
+        raise ValueError("Images must have the same dimensions and color mode.")
+
+    diff = ImageChops.difference(img1, img2)
+    if diff.getbbox() is None:
+        return 0.0
+    else:
+        diff_array = np.array(diff)
+        total_actual_diff = np.sum(diff_array)
+        max_possible_diff = diff_array.size * 255
+        percentage_diff = (total_actual_diff / max_possible_diff) * 100    
+        return float(percentage_diff) # Fixed: returns the calculated floa
