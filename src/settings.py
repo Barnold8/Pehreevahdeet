@@ -25,7 +25,7 @@ def loadConfig(path:str) -> None:
     try:
 
         with open(path,"r") as file:
-            content = json.load()
+            content = json.load(file)
             print(content)    
             # Screen
 
