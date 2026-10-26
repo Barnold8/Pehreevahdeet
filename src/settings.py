@@ -1,4 +1,5 @@
 # Classes here to provide default values and be edited when config is read. If config fails to read, the defaults here work in the program's favour
+import json
 
 class Screen:
     MONITOR_INDEX        = 0
