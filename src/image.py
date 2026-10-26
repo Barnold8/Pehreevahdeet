@@ -86,4 +86,5 @@ def getImageDiff(img1:PIL.Image.Image,img2:PIL.Image.Image)->float:
         total_actual_diff = np.sum(diff_array)
         max_possible_diff = diff_array.size * 255
         percentage_diff = (total_actual_diff / max_possible_diff) * 100    
-        return float(percentage_diff) # Fixed: returns the calculated floa
+        similarity_percentage = 100.0 - percentage_diff
+        return float(similarity_percentage) 
