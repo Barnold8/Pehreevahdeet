@@ -50,7 +50,7 @@ def loadConfig(path:str) -> None:
             Dev.SHOW_WARNINGS    = content["dev"]["show_warnings"]
             Dev.SHOW_SCREENGRABS = content["dev"]["show_screengrabs"]
             Dev.SHOW_SETTINGS    = content["dev"]["show_settings"]
-            Dev.RUN_COUNTS       = contents["dev"]["run_counts"]
+            Dev.RUN_COUNTS       = content["dev"]["run_counts"]
         
     except FileNotFoundError as FNFE:
         if Dev.SHOW_WARNINGS:
