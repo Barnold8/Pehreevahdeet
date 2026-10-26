@@ -1,0 +1,3 @@
+This file is just to help me keep track of features I want to implement. 
+
+I could use github issues or whatever but i'm one man so a text file will suffice
