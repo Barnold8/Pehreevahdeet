@@ -45,3 +45,15 @@ This tool came about to solve the problem of communications in video games. When
 For more ways to run the program, look at the "**Usage**" section
 
 # Usage
+
+To start the program in the most default mode, simply run
+
+``python src/main.py``
+
+This will not enable any warnings to be logged (when i make that feature) or any other features
+
+# Config
+
+# TO BE CONSTRUCTED
+
+![image](https://d1csarkz8obe9u.cloudfront.net/posterpreviews/notice-under-construction-design-template-16aab28647cdc546dbe5d975d2eb6146_screen.jpg?ts=1737375136)
