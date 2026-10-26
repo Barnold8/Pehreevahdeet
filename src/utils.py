@@ -4,11 +4,6 @@ import time
 import settings
 from typing import List
 
-def loadConfig(path:str) -> None:
-
-    pass
- 
-
 def sleepInNano(nano_seconds: int) -> None:
     time.sleep(nano_seconds/1000000.0)
  
@@ -51,6 +46,5 @@ def splitSentences(sentences: List [str],chunk_amount: int = 100)-> List[str]:
         counter += 1
 
     if len(str_buffer) > 0:
-        strings.append("".join[str_buffer])
+        strings.append("".join(str_buffer))
     return strings
- 
