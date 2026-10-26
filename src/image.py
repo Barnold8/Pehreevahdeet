@@ -1,4 +1,3 @@
-
 import os
 import io
 import base64
@@ -63,3 +62,12 @@ def getScreen(monitor:Monitor)-> PIL.Image.Image: # what in the world is that ty
     )
     return screen 
 
+def getMessage(unserialised:str) -> List[str]:
+    try:
+        payload = json.loads(unserialised)["ParsedResults"]
+        payload = payload[0]
+        payload = payload["ParsedText"]
+        return payload.split("\n")
+        
+    except KeyError as KE:
+        errPrint(f"Error: could not read from the OCR API output.\n\nFULL ERROR: {KE}")

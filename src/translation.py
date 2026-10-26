@@ -15,12 +15,17 @@ def translateLanguage(api_key: str,input_text: str,source_lang: str,target_lang:
 	    "Content-Type": "text/plain"
     }
     
+    response = requests.post(API_URL, data=payload, headers=headers, params=querystring)
+    if response.status_code >= 300 or response.status_code < 200:
+        print(f"Error: The call to the translation API threw a {response.status_code} status code. Check here for more information https://developer.mozilla.org/en-US/docs/Web/HTTP/Reference/Status")
+        return ERR_MESG
+    response = response.json()
+    
     try:
-        response = requests.post(API_URL, data=payload, headers=headers, params=querystring)
-        response = response.json()
         response = response['data']['translated_text'] 
-    except Exception as e:
-        print("Error: problem ocurred while sending text off to be translated - TRANSLATION")
+    except KeyError as KE:
+        print(f"Error: While accessing the response JSON, a key was attempted to be accessed. It's possible the PI responses have changed significantly enough to cause this error.")
+        return ERR_MESG
 
     return response
 
