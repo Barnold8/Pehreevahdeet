@@ -9,9 +9,10 @@ class Screen:
     PREFER_FIRST_MONITOR = False
 
     def load(content:dict):
-        if type(content["monitor_index"] != int):
-            pass
-
+        
+        Screen.MONITOR_INDEX        = content["monitor_index"]
+        Screen.PREFER_FIRST_MONITOR = content["prefer_first_monitor"]
+            
 class Image:
     SCREENSHOT_AREA      = [1920,1080]
     X_OFFSET             = 0
@@ -19,21 +20,28 @@ class Image:
     THRESHOLD            = 50
 
     def load(content:dict):
-        pass
+        area = content["screenshot_area"]
+        area = area.split("x")
+        area = [int(x) for x in area]
+
+        Image.SCREENSHOT_AREA = area
+        Image.X_OFFSET        = content["x_offset"]
+        Image.Y_OFFSET        = content["y_offset"] 
 
 
 class Language:
     TARGET_LANGUAGE      = 'en'
 
     def load(content:dict):
-        pass
+        Language.TARGET_LANGUAGE = content["target_language"]
 
 
 class System:
     POLL_RATE            = 50 
 
     def load(content:dict):
-        pass
+        System.POLL_RATE     = content["poll_rate"]
+        System.API_COOLDOWN  = content["api_cooldown"]
 
 
 class Dev:
@@ -46,7 +54,14 @@ class Dev:
     RUN_COUNT            = 2
 
     def load(content:dict):
-        pass
+        Dev.SHOW_WARNINGS    = content["show_warnings"]
+        Dev.SHOW_SCREENGRABS = content["show_screengrabs"]
+        Dev.SHOW_SETTINGS    = content["show_settings"]
+        Dev.DEBUG_LANGUAGE   = content["debug_language"]
+        Dev.DEBUG_WATCHDOG   = content["debug_watchdog"]
+        Dev.LIMITED_RUN      = content["limited_run"]
+        Dev.RUN_COUNT        = content["run_count"]
+
 
 def validateConfig(content: dict)->bool:
 
@@ -177,52 +192,28 @@ def loadConfig(path:str) -> None:
         with open(path,"r") as file:
             content = json.load(file)
 
-            print(validateConfig(content))
+            validateConfig(content)
              
             # Screen
 
-            screen = content["screen"]
+            Screen.load(content["screen"])
 
-            Screen.MONITOR_INDEX        = screen["monitor_index"]
-            Screen.PREFER_FIRST_MONITOR = screen["prefer_first_monitor"]
-            
             # Image
 
-            image = content["image"]
-
-            area = image["screenshot_area"]
-            area = area.split("x")
-            area = [int(x) for x in area]
-
-            Image.SCREENSHOT_AREA = area
-            Image.X_OFFSET        = image["x_offset"]
-            Image.Y_OFFSET        = image["y_offset"] 
+            Image.load(content["image"])
 
             # Language
 
-            language = content["language"]
-
-            Language.TARGET_LANGUAGE = language["target_language"]
+            Language.load(content["language"])
 
             # System
 
-            system = content["system"]
-
-            System.POLL_RATE     = system["poll_rate"]
-            System.API_COOLDOWN  = system["api_cooldown"]
+            System.load(content["system"])
 
             # Dev
 
-            dev = content["dev"]
+            Dev.load(content["dev"])
 
-            Dev.SHOW_WARNINGS    = dev["show_warnings"]
-            Dev.SHOW_SCREENGRABS = dev["show_screengrabs"]
-            Dev.SHOW_SETTINGS    = dev["show_settings"]
-            Dev.DEBUG_LANGUAGE   = dev["debug_language"]
-            Dev.DEBUG_WATCHDOG   = dev["debug_watchdog"]
-            Dev.LIMITED_RUN      = dev["limited_run"]
-            Dev.RUN_COUNT        = dev["run_count"]
-        
     except FileNotFoundError as FNFE:
         if Dev.SHOW_WARNINGS:
             print(f"loadConfig | Warning: {path} could not be found or the file could not be found. Program settings are staying as their default.")
