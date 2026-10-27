@@ -9,8 +9,7 @@ class Screen:
     PREFER_FIRST_MONITOR = False
 
     def load(content:dict):
-        
-        Screen.MONITOR_INDEX        = content["monitor_index"]
+        Screen.MONITOR_INDEX        = content["monitor_index"] if content["monitor_index"] > 0 else 0
         Screen.PREFER_FIRST_MONITOR = content["prefer_first_monitor"]
             
 class Image:
@@ -21,12 +20,15 @@ class Image:
 
     def load(content:dict):
         area = content["screenshot_area"]
-        area = area.split("x")
-        area = [int(x) for x in area]
+        for coord in area:
+            if coord < 0:
+                area = [1920,1080]
+                break
 
         Image.SCREENSHOT_AREA = area
-        Image.X_OFFSET        = content["x_offset"]
-        Image.Y_OFFSET        = content["y_offset"] 
+        
+        Image.X_OFFSET        = content["x_offset"] if content["x_offset"] > 0 else 0
+        Image.Y_OFFSET        = content["y_offset"] if content["y_offset"] > 0 else 0
 
 
 class Language:
@@ -64,7 +66,7 @@ class Dev:
 
 
 def validateConfig(content: dict)->bool:
-
+    # TODO: load schema from disk
     schema = {
       "$schema": "http://json-schema.org/draft-07/schema#",
       "title": "Generated schema for Root",
