@@ -9,14 +9,19 @@ class Image:
     SCREENSHOT_AREA      = [1920,1080]
     X_OFFSET             = 0
     Y_OFFSET             = 0
+    THRESHOLD            = 50
 
 class Language:
     TARGET_LANGUAGE      = 'en'
+
+class System:
+    POLL_RATE            = 50 
 
 class Dev:
     SHOW_WARNINGS        = True
     SHOW_SCREENGRABS     = False
     SHOW_SETTINGS        = False
+    LIMITED_RUN          = False
     RUN_COUNT            = 2
 
 
@@ -25,8 +30,7 @@ def loadConfig(path:str) -> None:
     try:
 
         with open(path,"r") as file:
-            content = json.load(file)
-            print(content)    
+            content = json.load(file)   
             # Screen
 
             Screen.MONITOR_INDEX        = content["screen"]["monitor_index"]
@@ -46,12 +50,17 @@ def loadConfig(path:str) -> None:
 
             Language.TARGET_LANGUAGE = content["language"]["target_language"]
 
-            # Dev
+            # System
+
+            System.POLL_RATE     = content["system"]["poll_rate"]
+
+            # DeImage.THRESHOLDv
 
             Dev.SHOW_WARNINGS    = content["dev"]["show_warnings"]
             Dev.SHOW_SCREENGRABS = content["dev"]["show_screengrabs"]
             Dev.SHOW_SETTINGS    = content["dev"]["show_settings"]
-            Dev.RUN_COUNTS       = content["dev"]["run_counts"]
+            Dev.LIMITED_RUN      = content["dev"]["limited_run"]
+            Dev.RUN_COUNT       = content["dev"]["run_count"]
         
     except FileNotFoundError as FNFE:
         if Dev.SHOW_WARNINGS:
@@ -60,8 +69,7 @@ def loadConfig(path:str) -> None:
 def printSettings():
 
     line_amount = 42
-    line = "="*line_amount
-    
+    line = "="*line_amount  
     print(
     f"""
 Screen
@@ -76,6 +84,7 @@ Image
     Screenshot area:        {Image.SCREENSHOT_AREA[0]}x{Image.SCREENSHOT_AREA[1]}
     X offset                {Image.X_OFFSET}
     Y offset                {Image.Y_OFFSET}
+    Threshold               {Image.THRESHOLD}
 
 Language
 {line}   
@@ -86,8 +95,9 @@ Dev
 {line}
 
     SHOW_WARNINGS:          {Dev.SHOW_WARNINGS}
-    SHOW_SCREENGRABS:       {Dev.SHOW_SCREENGRABS} 
+    SHOW_SCREENGRABS:       {Dev.SHOW_SCREENGRABS}
     SHOW_SETTINGS:          {Dev.SHOW_SETTINGS}
+    LIMITED_RUN:            {Dev.LIMITED_RUN}
     RUN_COUNT:              {Dev.RUN_COUNT}
 """)
 
