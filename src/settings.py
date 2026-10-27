@@ -89,7 +89,10 @@ def validateConfig(content: dict)->bool:
           "type": "object",
           "properties": {
             "screenshot_area": {
-              "type": "string"
+              "type": "array",
+              "items": {
+                "type": "number"
+              }
             },
             "x_offset": {
               "type": "number"
