@@ -220,7 +220,6 @@ class Language:
 
     TARGET_LANGUAGE = accepted_languages[0]
 
-
     def load(content:dict):
         Language.TARGET_LANGUAGE = content["target_language"] if content["target_language"] in Language.accepted_languages else 'en' # default to english
 
@@ -229,7 +228,7 @@ class System:
     POLL_RATE            = 50 
 
     def load(content:dict):
-        System.POLL_RATE     = content["poll_rate"]
+        System.POLL_RATE     = content["poll_rate"] if content["poll_rate"] > 0 else 50
         System.API_COOLDOWN  = content["api_cooldown"]
 
 
@@ -239,7 +238,8 @@ class Dev:
     SHOW_SETTINGS        = False
     LIMITED_RUN          = False
     DEBUG_LANGUAGE       = False
-    DEBUD_WATCHDOG       = False
+    DEBUG_WATCHDOG       = False
+    DEBUG_IMAGE          = False
     RUN_COUNT            = 2
 
     def load(content:dict):
@@ -248,9 +248,9 @@ class Dev:
         Dev.SHOW_SETTINGS    = content["show_settings"]
         Dev.DEBUG_LANGUAGE   = content["debug_language"]
         Dev.DEBUG_WATCHDOG   = content["debug_watchdog"]
+        Dev.DEBUG_IMAGE      = True
         Dev.LIMITED_RUN      = content["limited_run"]
-        Dev.RUN_COUNT        = content["run_count"]
-
+        Dev.RUN_COUNT        = content["run_count"] if content["run_count"] > 0 else 1
 
 def validateConfig(content: dict)->bool:
     # TODO: load schema from disk
