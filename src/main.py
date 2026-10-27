@@ -48,6 +48,7 @@ def main():
                     translation = tn.translateLanguage(TRANSLATION_KEY,sentence,'auto','en')
                     print(f"translated text:{translation}")
             else:
-                print(f"Last screengrab was too similar to the current one\n\nTHRESHOLD: {threshold} | DIFF: {diff}")
+                if settings.Dev.DEBUG_LANGUAGE:
+                    print(f"Last screengrab was too similar to the current one\n\nTHRESHOLD: {threshold} | DIFF: {diff}")
 
 main()
