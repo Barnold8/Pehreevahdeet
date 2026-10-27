@@ -14,7 +14,8 @@ class Watchdog:
     translation = False
 
     def closeEye(eye_id: Eye):
-        print("Closing eye")
+        if settings.Dev.DEBUG_WATCHDOG:
+            print("closeEye | Debug: Closing eye")
         match eye_id:
             case Eye.OCR:
                 Watchdog.ocr = True
@@ -24,7 +25,8 @@ class Watchdog:
                 print(f"Watchdog.closeEye | Error: an invalid ID ({eye_id}) was entered")
     
     def attemptSleep(eye_id : Eye):
-        print("Sleeping") 
+        if settings.Dev.DEBUG_WATCHDOG:
+            print("closeEye | Debug: Sleeping") 
         match eye_id:
             case Eye.OCR:
                 if Watchdog.ocr:
@@ -35,4 +37,4 @@ class Watchdog:
                     time.sleep(settings.System.API_COOLDOWN)
                     Watchdog.translation = False
             case _:
-                print(f"Watchdog.attemptSleep | Error: an invalid ID ({eye_id}) was entered")
+                print(f"attemptSleep | Error: an invalid ID ({eye_id}) was entered")

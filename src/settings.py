@@ -23,6 +23,7 @@ class Dev:
     SHOW_SETTINGS        = False
     LIMITED_RUN          = False
     DEBUG_LANGUAGE       = False
+    DEBUD_WATCHDOG       = False
     RUN_COUNT            = 2
 
 
@@ -32,37 +33,51 @@ def loadConfig(path:str) -> None:
 
         with open(path,"r") as file:
             content = json.load(file)   
+            
+            
             # Screen
 
-            Screen.MONITOR_INDEX        = content["screen"]["monitor_index"]
-            Screen.PREFER_FIRST_MONITOR = content["screen"]["prefer_first_monitor"]
+            screen = content["screen"]
+
+            Screen.MONITOR_INDEX        = screen["monitor_index"]
+            Screen.PREFER_FIRST_MONITOR = screen["prefer_first_monitor"]
             
             # Image
 
-            area = content["image"]["screenshot_area"]
+            image = content["image"]
+
+            area = image["screenshot_area"]
             area = area.split("x")
             area = [int(x) for x in area]
 
             Image.SCREENSHOT_AREA = area
-            Image.X_OFFSET        = content["image"]["x_offset"]
-            Image.Y_OFFSET        = content["image"]["y_offset"] 
+            Image.X_OFFSET        = image["x_offset"]
+            Image.Y_OFFSET        = image["y_offset"] 
 
-            # Settings
+            # Language
 
-            Language.TARGET_LANGUAGE = content["language"]["target_language"]
+            language = content["language"]
+
+            Language.TARGET_LANGUAGE = language["target_language"]
 
             # System
 
-            System.POLL_RATE     = content["system"]["poll_rate"]
+            system = content["system"]
 
-            # DeImage.THRESHOLDv
+            System.POLL_RATE     = system["poll_rate"]
+            System.API_COOLDOWN  = system["api_cooldown"]
 
-            Dev.SHOW_WARNINGS    = content["dev"]["show_warnings"]
-            Dev.SHOW_SCREENGRABS = content["dev"]["show_screengrabs"]
-            Dev.SHOW_SETTINGS    = content["dev"]["show_settings"]
-            Dev.DEBUG_LANGUAGE   = content["dev"]["debug_language"]
-            Dev.LIMITED_RUN      = content["dev"]["limited_run"]
-            Dev.RUN_COUNT        = content["dev"]["run_count"]
+            # Dev
+
+            dev = content["dev"]
+
+            Dev.SHOW_WARNINGS    = dev["show_warnings"]
+            Dev.SHOW_SCREENGRABS = dev["show_screengrabs"]
+            Dev.SHOW_SETTINGS    = dev["show_settings"]
+            Dev.DEBUG_LANGUAGE   = dev["debug_language"]
+            Dev.DEBUG_WATCHDOG   = dev["debug_watchdog"]
+            Dev.LIMITED_RUN      = dev["limited_run"]
+            Dev.RUN_COUNT        = dev["run_count"]
         
     except FileNotFoundError as FNFE:
         if Dev.SHOW_WARNINGS:

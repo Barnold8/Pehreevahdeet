@@ -24,12 +24,12 @@ def translateLanguage(api_key: str,input_text: str,source_lang: str,target_lang:
     response = requests.post(API_URL, data=payload, headers=headers, params=querystring)
     
     if response.status_code >= 300 or response.status_code < 200 and settings.Dev.SHOW_WARNINGS:
-        
-        print(f"Response {response}")
-        # put to sleep
+       
+        if settings.Dev.DEBUG_WATCHDOG:
+            print(f"translateLanguage | Debug: The call to the translation API threw a {response.status_code} status code. Check here for more information https://developer.mozilla.org/en-US/docs/Web/HTTP/Reference/Status")
+
         wd.Watchdog.closeEye(Eye.TRANSLATION)
 
-        print(f"Error: The call to the translation API threw a {response.status_code} status code. Check here for more information https://developer.mozilla.org/en-US/docs/Web/HTTP/Reference/Status")
         return ERR_MESG
     
     response = response.json()
