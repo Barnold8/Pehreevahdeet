@@ -26,10 +26,10 @@ This tool came about to solve the problem of communications in video games. When
     * How to activate venv on Windows
         * ``C:\Users\Your Name> venv\Scripts\activate ``
 5. Install the modules needed
-    * ``pip install -r requirements.txt``
+    * ``pip install -r .config/requirements.txt``
 6. Get the OCR API key
     1. Get your OCR api key [>>here<<](https://ocr.space/ocrapi/freekey)
-    2. Create a file in Pehreevahdeet named **"API_KEY_OCR"** (make sure this has no file extension)
+    2. Create a file in the .config directory named **"API_KEY_OCR"** (make sure this has no file extension)
     3. Enter the contents of your API key in **"API_KEY_OCR"**
 7. Get the Translation API key
     1. Go to [**this website**](https://rapidapi.com/flybyapi1/api/multi-format-ai-translator-the-most-complete/playground/translate)
@@ -37,7 +37,7 @@ This tool came about to solve the problem of communications in video games. When
     3. This will take you to a **sign up/sign in page**. Either make a new account or sign in
     4. When you are logged in, you will be returned to that same page. Look for a tab named **Authorization**. Click it.
     5. You will see some field with the name **X-RapidAPI-Key**, copy that value
-    6. Create a file in Pehreevahdeet named **"API_KEY_TRANSLATE"** (make sure this has no file extension)
+    6. Create a file in the .config directory named **"API_KEY_TRANSLATE"** (make sure this has no file extension)
     6. Enter the contents of your API key in **"API_KEY_TRANSLATE"**
 8. Run the program
     * ``python src/main.py``
