@@ -30,7 +30,7 @@ def splitSentences(sentences: List [str],chunk_amount: int = 100)-> List[str]:
     # The intended outcome of this is to avoid rate limiting of the translation API with the caveat of some outputs being weird
 
     if len(sentences) <= chunk_amount:
-        return ["".join(sentences)]
+        return "".join(sentences)
 
     counter = 0
     strings = []
@@ -40,11 +40,12 @@ def splitSentences(sentences: List [str],chunk_amount: int = 100)-> List[str]:
         if counter >= chunk_amount:
             counter = 0
             new_string = "".join(str_buffer)
-            strings.append(str_buffer)
+            strings.append(new_string)
             str_buffer = []
         str_buffer.append(sentence)
         counter += 1
 
     if len(str_buffer) > 0:
         strings.append("".join(str_buffer))
+
     return strings
