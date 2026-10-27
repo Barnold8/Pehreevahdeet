@@ -1,9 +1,16 @@
 # Classes here to provide default values and be edited when config is read. If config fails to read, the defaults here work in the program's favour
 import json
+import jsonschema
+from jsonschema import validate
+
 
 class Screen:
     MONITOR_INDEX        = 0
     PREFER_FIRST_MONITOR = False
+
+    def load(content:dict):
+        if type(content["monitor_index"] != int):
+            pass
 
 class Image:
     SCREENSHOT_AREA      = [1920,1080]
@@ -11,11 +18,23 @@ class Image:
     Y_OFFSET             = 0
     THRESHOLD            = 50
 
+    def load(content:dict):
+        pass
+
+
 class Language:
     TARGET_LANGUAGE      = 'en'
 
+    def load(content:dict):
+        pass
+
+
 class System:
     POLL_RATE            = 50 
+
+    def load(content:dict):
+        pass
+
 
 class Dev:
     SHOW_WARNINGS        = True
@@ -26,15 +45,140 @@ class Dev:
     DEBUD_WATCHDOG       = False
     RUN_COUNT            = 2
 
+    def load(content:dict):
+        pass
+
+def validateConfig(content: dict)->bool:
+
+    schema = {
+      "$schema": "http://json-schema.org/draft-07/schema#",
+      "title": "Generated schema for Root",
+      "type": "object",
+      "properties": {
+        "screen": {
+          "type": "object",
+          "properties": {
+            "monitor_index": {
+              "type": "number"
+            },
+            "prefer_first_monitor": {
+              "type": "boolean"
+            }
+          },
+          "required": [
+            "monitor_index",
+            "prefer_first_monitor"
+          ]
+        },
+        "image": {
+          "type": "object",
+          "properties": {
+            "screenshot_area": {
+              "type": "string"
+            },
+            "x_offset": {
+              "type": "number"
+            },
+            "y_offset": {
+              "type": "number"
+            },
+            "image_difference_threshold": {
+              "type": "number"
+            }
+          },
+          "required": [
+            "screenshot_area",
+            "x_offset",
+            "y_offset",
+            "image_difference_threshold"
+          ]
+        },
+        "language": {
+          "type": "object",
+          "properties": {
+            "target_language": {
+              "type": "string"
+            }
+          },
+          "required": [
+            "target_language"
+          ]
+        },
+        "system": {
+          "type": "object",
+          "properties": {
+            "poll_rate": {
+              "type": "string"
+            },
+            "api_cooldown": {
+              "type": "string"
+            }
+          },
+          "required": [
+            "poll_rate",
+            "api_cooldown"
+          ]
+        },
+        "dev": {
+          "type": "object",
+          "properties": {
+            "show_warnings": {
+              "type": "boolean"
+            },
+            "show_screengrabs": {
+              "type": "boolean"
+            },
+            "show_settings": {
+              "type": "boolean"
+            },
+            "limited_run": {
+              "type": "boolean"
+            },
+            "run_count": {
+              "type": "number"
+            },
+            "debug_language": {
+              "type": "boolean"
+            },
+            "debug_watchdog": {
+              "type": "boolean"
+            }
+          },
+          "required": [
+            "show_warnings",
+            "show_screengrabs",
+            "show_settings",
+            "limited_run",
+            "run_count",
+            "debug_language",
+            "debug_watchdog"
+          ]
+        }
+      },
+      "required": [
+        "screen",
+        "image",
+        "language",
+        "system",
+        "dev"
+      ]
+    } 
+        
+    try:
+        validate(instance=content,schema=schema)
+        return True
+    except jsonschema.exceptions.ValidationError as e:
+        print(f"Config file is invalid\nError:{"="*46}\n\n{e}\n\nSkipping config load...")
 
 def loadConfig(path:str) -> None:
 
     try:
 
         with open(path,"r") as file:
-            content = json.load(file)   
-            
-            
+            content = json.load(file)
+
+            print(validateConfig(content))
+             
             # Screen
 
             screen = content["screen"]
@@ -115,7 +259,7 @@ Dev
     SHOW_SCREENGRABS:       {Dev.SHOW_SCREENGRABS}
     SHOW_SETTINGS:          {Dev.SHOW_SETTINGS}
     LIMITED_RUN:            {Dev.LIMITED_RUN}
-    Debug  Language         {Language.DEBUG_LANGUAGE}
+    Debug  Language         {Dev.DEBUG_LANGUAGE}
     RUN_COUNT:              {Dev.RUN_COUNT}
 """)
 
