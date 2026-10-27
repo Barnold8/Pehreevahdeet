@@ -32,7 +32,7 @@ def main():
 
             utils.sleepInNano(POLL_RATE) # free up cpu usage
             screen      = img.getScreen(monitors[0]) # TODO: add way to import user config here with proper error handling
-            diff        = img.getImageDiff(screen,prev_img) if prev_img != None else 0  
+            diff        = img.getImageDiff(screen,prev_img)  
 
             if prev_img == None or diff > threshold:
                 
