@@ -43,11 +43,11 @@ def main():
                 if wd.Watchdog.ocr == False:
                     out         = img.OCR(screen,OCR_KEY)
                     text        = img.getMessage(out)
-                    
-                    for sentence in utils.splitSentences(text):
+                    sentences   = utils.splitSentences(text)
+                    for sentence in sentences:
                         if settings.Dev.DEBUG_LANGUAGE:
-                            print(f"DEBUG: Text to be translated: {text}\n")
-                            print(f"DEBUG: Payload to be sent to translateLanguage function\n\nsentence:{sentence}\n\nsource_lang:'auto'\n\ntarget_lang: {settings.Language.TARGET_LANGUAGE}") 
+                            print(f"DEBUG: Text to be translated: {text}\n\nText split into sentences {sentences}")
+                            print(f"DEBUG: Payload to be sent to translateLanguage function\n\nsentence:{type(sentence)}\n\nsource_lang:'auto'\n\ntarget_lang: {settings.Language.TARGET_LANGUAGE}") 
                         translation = tn.translateLanguage(TRANSLATION_KEY,sentence,'auto',settings.Language.TARGET_LANGUAGE)
                         print(f"translated text: {translation}")
                 else:
