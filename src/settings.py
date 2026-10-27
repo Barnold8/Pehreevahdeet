@@ -91,7 +91,6 @@ Language
 {line}   
 
     Target Language:        {Language.TARGET_LANGUAGE}
-    Debug  Language         {Language.DEBUG_LANGUAGE}
 
 Dev
 {line}
@@ -100,6 +99,7 @@ Dev
     SHOW_SCREENGRABS:       {Dev.SHOW_SCREENGRABS}
     SHOW_SETTINGS:          {Dev.SHOW_SETTINGS}
     LIMITED_RUN:            {Dev.LIMITED_RUN}
+    Debug  Language         {Language.DEBUG_LANGUAGE}
     RUN_COUNT:              {Dev.RUN_COUNT}
 """)
 
