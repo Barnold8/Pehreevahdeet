@@ -2,38 +2,40 @@ try:
     import utils
     import image as img
     import translation as tn
+    import settings
     from PIL import Image
 
 except ModuleNotFoundError as MNFE:
     print(f"Encountered an error when importing library code. Have you activated the venv?\n\nHave you ran pip install -r requirements.txt while in said venv?\n\nERROR:{MNFE}")
-
-class Settings:
-
-    RUN_COUNT = NONE
-    
-
-def loadConfig(path:str) ->:
-
-    pass
-  
+ 
 def main():
-   
-    POLL_RATE           = 50
-    running             = True
+
+    settings.loadConfig("config.json")
+
+    POLL_RATE           = settings.System.POLL_RATE
+    threshold           = settings.Image.THRESHOLD
     OCR_KEY             = utils.getAPIKey('API_KEY_OCR')
     TRANSLATION_KEY     = utils.getAPIKey('API_KEY_TRANSLATE')
     prev_img            = None
-    threshold           = 50.0
+    running             = True
+
+    if settings.Dev.SHOW_SETTINGS:
+
+        settings.printSettings()
 
     if __name__ == "__main__":
 
         monitors = utils.getMonitors()
 
-        while(running):
+        while(settings.Dev.RUN_COUNT > 0):
+            
+            if settings.Dev.LIMITED_RUN:
+                settings.Dev.RUN_COUNT -= 1
 
             utils.sleepInNano(POLL_RATE) # free up cpu usage
-            screen      = img.getScreen(monitors[0])
-            diff        = img.getImageDiff(screen,prev_img) if prev_img != None else 0   
+            screen      = img.getScreen(monitors[0]) # TODO: add way to import user config here with proper error handling
+            diff        = img.getImageDiff(screen,prev_img) if prev_img != None else 0  
+
             if prev_img == None or diff > threshold:
                 prev_img    = screen
                 out         = img.OCR(screen,OCR_KEY)
