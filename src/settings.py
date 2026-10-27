@@ -108,10 +108,10 @@ def validateConfig(content: dict)->bool:
           "type": "object",
           "properties": {
             "poll_rate": {
-              "type": "string"
+              "type": "number"
             },
             "api_cooldown": {
-              "type": "string"
+              "type": "boolean"
             }
           },
           "required": [
