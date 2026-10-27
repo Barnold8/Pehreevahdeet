@@ -8,14 +8,6 @@ try:
 except ModuleNotFoundError as MNFE:
     print(f"Encountered an error when importing library code. Have you activated the venv?\n\nHave you ran pip install -r requirements.txt while in said venv?\n\nERROR:{MNFE}")
 
-def safeGuardMonitorIndex(monitors,index:int) -> int:
-
-    if index > len(monitors):
-        if settings.Screen.PREFER_FIRST_MONITOR:
-            return 0
-        else:
-            return len(monitors) - 1
-    return index
 def main():
 
     settings.loadConfig("config.json")
@@ -28,7 +20,7 @@ def main():
     OCR_KEY             = utils.getAPIKey('API_KEY_OCR')
     TRANSLATION_KEY     = utils.getAPIKey('API_KEY_TRANSLATE')
     monitors            = utils.getMonitors()
-    monitor_index       = safeGuardMonitorIndex(monitors,settings.Screen.MONITOR_INDEX)
+    monitor_index       = img.safeGuardMonitorIndex(monitors,settings.Screen.MONITOR_INDEX)
     prev_img            = None
     running             = True
 
