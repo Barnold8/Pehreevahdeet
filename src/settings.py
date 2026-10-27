@@ -248,134 +248,25 @@ class Dev:
         Dev.SHOW_SETTINGS    = content["show_settings"]
         Dev.DEBUG_LANGUAGE   = content["debug_language"]
         Dev.DEBUG_WATCHDOG   = content["debug_watchdog"]
-        Dev.DEBUG_IMAGE      = True
+        Dev.DEBUG_IMAGE      = content["debug_image"]
         Dev.LIMITED_RUN      = content["limited_run"]
         Dev.RUN_COUNT        = content["run_count"] if content["run_count"] > 0 else 1
 
 def validateConfig(content: dict)->bool:
-    # TODO: load schema from disk
-    schema = {
-      "$schema": "http://json-schema.org/draft-07/schema#",
-      "title": "Generated schema for Root",
-      "type": "object",
-      "properties": {
-        "screen": {
-          "type": "object",
-          "properties": {
-            "monitor_index": {
-              "type": "number"
-            },
-            "prefer_first_monitor": {
-              "type": "boolean"
-            }
-          },
-          "required": [
-            "monitor_index",
-            "prefer_first_monitor"
-          ]
-        },
-        "image": {
-          "type": "object",
-          "properties": {
-            "screenshot_area": {
-              "type": "array",
-              "items": {
-                "type": "number"
-              }
-            },
-            "x_offset": {
-              "type": "number"
-            },
-            "y_offset": {
-              "type": "number"
-            },
-            "image_difference_threshold": {
-              "type": "number"
-            }
-          },
-          "required": [
-            "screenshot_area",
-            "x_offset",
-            "y_offset",
-            "image_difference_threshold"
-          ]
-        },
-        "language": {
-          "type": "object",
-          "properties": {
-            "target_language": {
-              "type": "string"
-            }
-          },
-          "required": [
-            "target_language"
-          ]
-        },
-        "system": {
-          "type": "object",
-          "properties": {
-            "poll_rate": {
-              "type": "number"
-            },
-            "api_cooldown": {
-              "type": "boolean"
-            }
-          },
-          "required": [
-            "poll_rate",
-            "api_cooldown"
-          ]
-        },
-        "dev": {
-          "type": "object",
-          "properties": {
-            "show_warnings": {
-              "type": "boolean"
-            },
-            "show_screengrabs": {
-              "type": "boolean"
-            },
-            "show_settings": {
-              "type": "boolean"
-            },
-            "limited_run": {
-              "type": "boolean"
-            },
-            "run_count": {
-              "type": "number"
-            },
-            "debug_language": {
-              "type": "boolean"
-            },
-            "debug_watchdog": {
-              "type": "boolean"
-            }
-          },
-          "required": [
-            "show_warnings",
-            "show_screengrabs",
-            "show_settings",
-            "limited_run",
-            "run_count",
-            "debug_language",
-            "debug_watchdog"
-          ]
-        }
-      },
-      "required": [
-        "screen",
-        "image",
-        "language",
-        "system",
-        "dev"
-      ]
-    } 
-        
+    
+    try:
+        with open(".config/schema.json") as file:
+            schema = json.load(file)
+    except FileNotFoundError as FNFE:
+        print(f"Could not find config file. Reverting to default settings")
+        return False
+       
     try:
         validate(instance=content,schema=schema)
         return True
     except jsonschema.exceptions.ValidationError as e:
         print(f"Config file is invalid\nError:{"="*46}\n\n{e}\n\nSkipping config load...")
+        return False
 
 def loadConfig(path:str) -> None:
 
