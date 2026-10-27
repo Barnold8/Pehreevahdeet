@@ -1,0 +1,29 @@
+{
+  "screen":{
+	"monitor_index": -1,
+  	"prefer_first_monitor" : false
+  },
+  "image":{
+ 	"screenshot_area"		: [-2,-1],
+	"x_offset"       		: -1000,
+	"y_offset"	 		: -12,
+  	"image_difference_threshold"	: -1
+  },
+  "language":{
+	"target_language": "aaaaaaaaaaaa"
+  },
+  "system":{
+	"poll_rate":-100,
+	"api_cooldown": true
+  },
+  "dev": {
+	"show_warnings": false,
+	"show_screengrabs":false,
+	"show_settings":false,
+	"limited_run": false,
+	"run_count": -100,
+	"debug_language": false,
+	"debug_watchdog": false,
+	"debug_image": false
+  }
+ }
