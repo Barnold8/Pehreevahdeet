@@ -16,7 +16,7 @@ class Image:
     SCREENSHOT_AREA      = [1920,1080]
     X_OFFSET             = 0
     Y_OFFSET             = 0
-    THRESHOLD            = 50
+    THRESHOLD            = 50.0
 
     def load(content:dict):
         area = content["screenshot_area"]
@@ -29,7 +29,7 @@ class Image:
         
         Image.X_OFFSET        = content["x_offset"] if content["x_offset"] > 0 else 0
         Image.Y_OFFSET        = content["y_offset"] if content["y_offset"] > 0 else 0
-
+        Image.THRESHOLD       = content["image_difference_threshold"] if content["image_difference_threshold"] > 0 else 50.0
 
 class Language:
     TARGET_LANGUAGE      = 'en'
