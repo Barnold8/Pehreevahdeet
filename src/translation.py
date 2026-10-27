@@ -11,7 +11,7 @@ def translateLanguage(api_key: str,input_text: str,source_lang: str,target_lang:
     wd.Watchdog.attemptSleep(Eye.TRANSLATION) 
 
     API_URL     = "https://multi-format-ai-translator-the-most-complete.p.rapidapi.com/translate"
-    ERR_MESG    = "translatefail"
+    ERR_MESG    = "Could not translate text. Don't see any errors? Enable show"
     querystring = {"source":source_lang,"target":target_lang}
 
     payload = input_text 
@@ -26,6 +26,8 @@ def translateLanguage(api_key: str,input_text: str,source_lang: str,target_lang:
     if response.status_code >= 300 or response.status_code < 200 and settings.Dev.SHOW_WARNINGS:
        
         if settings.Dev.DEBUG_WATCHDOG:
+            print(f"translateLanguage | Error: Got error code {reponse.status_code}\n\nPayload\n\ninput text: {input_text}\n\nsource_lang: {source_lang}\n\ntarget_lang: {target_lang}")
+        if settings.Dev.SHOW_WARNINGS:
             print(f"translateLanguage | Debug: The call to the translation API threw a {response.status_code} status code. Check here for more information https://developer.mozilla.org/en-US/docs/Web/HTTP/Reference/Status")
 
         wd.Watchdog.closeEye(Eye.TRANSLATION)
