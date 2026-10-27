@@ -3,8 +3,9 @@ try:
     import image as img
     import translation as tn
     import settings
+    import API_watchdog as wd
     from PIL import Image
-
+    
 except ModuleNotFoundError as MNFE:
     print(f"Encountered an error when importing library code. Have you activated the venv?\n\nHave you ran pip install -r requirements.txt while in said venv?\n\nERROR:{MNFE}")
 
@@ -23,6 +24,7 @@ def main():
     monitor_index       = img.safeGuardMonitorIndex(monitors,settings.Screen.MONITOR_INDEX)
     prev_img            = None
     running             = True
+    run_ocr             = True
 
     if __name__ == "__main__": 
 
@@ -38,17 +40,18 @@ def main():
             if prev_img == None or diff > threshold:
                 
                 prev_img    = screen
-                out         = img.OCR(screen,OCR_KEY)
-                text        = img.getMessage(out)
-                
-                for sentence in utils.splitSentences(text):
+                if wd.Watchdog.ocr == False:
+                    out         = img.OCR(screen,OCR_KEY)
+                    text        = img.getMessage(out)
+                    
+                    for sentence in utils.splitSentences(text):
+                        if settings.Dev.DEBUG_LANGUAGE:
+                            print(f"DEBUG: Text to be translated: {text}\n")
+                            print(f"DEBUG: Payload to be sent to translateLanguage function\n\nsentence:{sentence}\n\nsource_lang:'auto'\n\ntarget_lang: {settings.Language.TARGET_LANGUAGE}") 
+                        translation = tn.translateLanguage(TRANSLATION_KEY,sentence,'auto',settings.Language.TARGET_LANGUAGE)
+                        print(f"translated text: {translation}")
+                else:
                     if settings.Dev.DEBUG_LANGUAGE:
-                        print(f"DEBUG: Text to be translated: {text}\n")
-                        print(f"DEBUG: Payload to be sent to translateLanguage function\n\nsentence:{sentence}\n\nsource_lang:'auto'\n\ntarget_lang: {settings.Language.TARGET_LANGUAGE}") 
-                    translation = tn.translateLanguage(TRANSLATION_KEY,sentence,'auto',settings.Language.TARGET_LANGUAGE)
-                    print(f"translated text: {translation}")
-            else:
-                if settings.Dev.DEBUG_LANGUAGE:
-                    print(f"Last screengrab was too similar to the current one\n\nTHRESHOLD: {threshold} | DIFF: {diff}")
+                        print(f"Last screengrab was too similar to the current one\n\nTHRESHOLD: {threshold} | DIFF: {diff}")
 
 main()

@@ -4,6 +4,8 @@ import requests
 import json
 import numpy as np
 import settings
+import utils
+import API_watchdog as wd 
 from PIL import Image, ImageGrab,ImageChops
 
 def loadImages(path:str):
@@ -34,20 +36,38 @@ def imageToBase64(image: PIL.Image.Image) -> str:
     return f"data:image/png;base64,{base64_str}"
 
 def OCR(image: PIL.Image.Image, api_key: str, isOverlay: bool = False, lang: str = 'eng'):
+    
+    # check if cooldown, if so, sleep
+    
+    wd.Watchdog.attemptSleep(wd.Eye.OCR) 
+
+
     API_URL = 'https://api.ocr.space/parse/image'
         
-
     payload = {
          'apikey': api_key,
          'base64Image': imageToBase64(image),
          'isOverlayRequired': str(isOverlay).lower(), 
          'language': lang 
     }
-    r = requests.post(
+
+    response = requests.post(
         API_URL,
         data=payload
     )
-    return r.content.decode()
+ 
+    status_code = response.status_code
+    resp = response.content.decode()
+
+    if status_code >= 300 or status_code < 200 and settings.Dev.SHOW_WARNINGS:
+
+        err_str = f"Error while running OCR {resp}"
+        
+        wd.Watchdog.closeEye(wd.Eye.OCR)
+     
+        return response
+
+    return resp
 
 
 def getScreen(monitor:Monitor)-> PIL.Image.Image: # what in the world is that type? Image file with an Image class?
@@ -68,13 +88,15 @@ def getScreen(monitor:Monitor)-> PIL.Image.Image: # what in the world is that ty
 
 def getMessage(unserialised:str) -> List[str]:
     try:
+        if settings.Dev.DEBUG_IMAGE:
+            print(f"getMessage | Debug:\n\n{"="*46}\nunserialised {unserialised}\n\nloaded {json.loads(unserialised)}")
         payload = json.loads(unserialised)["ParsedResults"]
         payload = payload[0]
         payload = payload["ParsedText"]
         return payload.split("\n")
         
     except KeyError as KE:
-        errPrint(f"getMessage | Error: could not read from the OCR API output.\n\nFULL ERROR: {KE}")
+        utils.errPrint(f"getMessage | Error: could not read from the OCR API output.\n\nFULL ERROR: {KE}")
 
 def getImageDiff(img1:PIL.Image.Image,img2:PIL.Image.Image)->float:
 
