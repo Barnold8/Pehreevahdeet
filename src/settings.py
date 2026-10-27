@@ -228,7 +228,7 @@ class System:
     POLL_RATE            = 50 
 
     def load(content:dict):
-        System.POLL_RATE     = content["poll_rate"] if content["poll_rate"] > 0 else 50
+        System.POLL_RATE     = content["poll_raterue"] if content["poll_rate"] > 0 else 50
         System.API_COOLDOWN  = content["api_cooldown"]
 
 
@@ -390,25 +390,15 @@ def loadConfig(path:str) -> None:
 
             Screen.load(content["screen"])
 
-            # Image
+    if len(files) <= 0:
+        print(f"Warning: no files found in {path}")
+        return files
 
-            Image.load(content["image"])
+    for img in files:
+        fPath = f"{path}/{img}"
+        images.append(Image.open(fPath))
 
-            # Language
-
-            Language.load(content["language"])
-
-            # System
-
-            System.load(content["system"])
-
-            # Dev
-
-            Dev.load(content["dev"])
-
-    except FileNotFoundError as FNFE:
-        if Dev.SHOW_WARNINGS:
-            print(f"loadConfig | Warning: {path} could not be found or the file could not be found. Program settings are staying as their default.")
+    return images
 
 def printSettings():
 
