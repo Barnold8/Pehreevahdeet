@@ -3,14 +3,20 @@ This file is just to help me keep track of features I want to implement. ✔
 I could use github issues or whatever but i'm one man so a text file will suffice
 
 
-1. Add in config a way to define what monitor index to use
+1. Add in config a way to define what monitor index to use ✔ 
 	If index > monitor amount
 		either fall back to first monitor or last monitor, not sure yet
 
-2. add in config a way to specify an area of the screen to screenshot
+2. add in config a way to specify an area of the screen to screenshot ✔ 
 	if screenshot area > screen_res
 		take max size of screen
 
-3. Somehow check if the current screenshot is different enough than the last screenshot to warrant API calls (stops rate limiting) and duplicate translation messages
+3. Somehow check if the current screenshot is different enough than the last screenshot to warrant API calls (stops rate limiting) and duplicate translation messages ✔ 
 
-4. Add a way to enable warning messages using the CLI 
+4. Add a way to enable warning messages using the CLI ✔ (done in settings)
+
+5. Account for API error
+
+6. Reduce image size (in bytes) to send off to OCR
+
+7. Make a proper error system to log errors and show warnings

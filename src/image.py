@@ -61,7 +61,7 @@ def OCR(image: PIL.Image.Image, api_key: str, isOverlay: bool = False, lang: str
 
     if status_code >= 300 or status_code < 200 and settings.Dev.SHOW_WARNINGS:
 
-        err_str = f"Error while running OCR {resp}"
+        print(f"Error while running OCR {resp}")
         
         wd.Watchdog.closeEye(wd.Eye.OCR)
      

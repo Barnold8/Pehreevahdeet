@@ -17,12 +17,12 @@
 	"api_cooldown": true
   },
   "dev": {
-	"show_warnings": false,
+	"show_warnings": true,
 	"show_screengrabs":false,
 	"show_settings":false,
 	"limited_run": false,
 	"run_count": -100,
-	"debug_language": false,
+	"debug_language": true,
 	"debug_watchdog": false,
 	"debug_image": false
   }

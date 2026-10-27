@@ -28,7 +28,7 @@ def translateLanguage(api_key: str,input_text: str,source_lang: str,target_lang:
         if settings.Dev.DEBUG_WATCHDOG:
             print(f"translateLanguage | Error: Got error code {reponse.status_code}\n\nPayload\n\ninput text: {input_text}\n\nsource_lang: {source_lang}\n\ntarget_lang: {target_lang}")
         if settings.Dev.SHOW_WARNINGS:
-            print(f"translateLanguage | Debug: The call to the translation API threw a {response.status_code} status code. Check here for more information https://developer.mozilla.org/en-US/docs/Web/HTTP/Reference/Status")
+            print(f"translateLanguage | Debug: The call to the translation API threw a {response.status_code} status code. Check here for more information https://developer.mozilla.org/en-US/docs/Web/HTTP/Reference/Status. If you are using a FREE API key, it has most likely reached its monthly qouta")
 
         wd.Watchdog.closeEye(Eye.TRANSLATION)
 

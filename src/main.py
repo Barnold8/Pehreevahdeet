@@ -11,15 +11,15 @@ except ModuleNotFoundError as MNFE:
 
 def main():
 
-    settings.loadConfig("config.json")
+    settings.loadConfig(".config/config.json")
     
     if settings.Dev.SHOW_SETTINGS:
         settings.printSettings()
 
     POLL_RATE           = settings.System.POLL_RATE
     threshold           = settings.Image.THRESHOLD
-    OCR_KEY             = utils.getAPIKey('API_KEY_OCR')
-    TRANSLATION_KEY     = utils.getAPIKey('API_KEY_TRANSLATE')
+    OCR_KEY             = utils.getAPIKey('.config/API_KEY_OCR')
+    TRANSLATION_KEY     = utils.getAPIKey('.config/API_KEY_TRANSLATE')
     monitors            = utils.getMonitors()
     monitor_index       = img.safeGuardMonitorIndex(monitors,settings.Screen.MONITOR_INDEX)
     prev_img            = None
