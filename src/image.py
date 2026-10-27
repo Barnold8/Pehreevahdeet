@@ -2,7 +2,9 @@ import io
 import base64
 import requests
 import json
-from PIL import Image, ImageGrab
+import numpy as np
+import settings
+from PIL import Image, ImageGrab,ImageChops
 
 def loadImages(path:str):
 
@@ -10,7 +12,6 @@ def loadImages(path:str):
     files  = []
     images = []
 
-    
     for (dirpath, dirnames, filenames) in os.walk(path):
         files.extend(filenames)
 
@@ -51,12 +52,15 @@ def OCR(image: PIL.Image.Image, api_key: str, isOverlay: bool = False, lang: str
 
 def getScreen(monitor:Monitor)-> PIL.Image.Image: # what in the world is that type? Image file with an Image class?
 
+    width  = settings.Image.SCREENSHOT_AREA[0]
+    height = settings.Image.SCREENSHOT_AREA[1]
+
     screen = ImageGrab.grab(all_screens=True,bbox=(
     
                 monitor.x,
                 monitor.y,
-                monitor.x + monitor.width,
-                monitor.y + monitor.height
+                monitor.x + width,
+                monitor.y + height
         
             )
     )
@@ -70,4 +74,30 @@ def getMessage(unserialised:str) -> List[str]:
         return payload.split("\n")
         
     except KeyError as KE:
-        errPrint(f"Error: could not read from the OCR API output.\n\nFULL ERROR: {KE}")
+        errPrint(f"getMessage | Error: could not read from the OCR API output.\n\nFULL ERROR: {KE}")
+
+def getImageDiff(img1:PIL.Image.Image,img2:PIL.Image.Image)->float:
+
+    if img1.size != img2.size or img1.mode != img2.mode:
+        raise ValueError("getImageDiff | Error: Images must have the same dimensions and color mode.")
+
+    diff = ImageChops.difference(img1, img2)
+    if diff.getbbox() is None:
+        return 0.0
+    else:
+        diff_array = np.array(diff)
+        total_actual_diff = np.sum(diff_array)
+        max_possible_diff = diff_array.size * 255
+        percentage_diff = (total_actual_diff / max_possible_diff) * 100    
+        similarity_percentage = 100.0 - percentage_diff
+        return float(similarity_percentage) 
+
+def safeGuardMonitorIndex(monitors,index:int) -> int:
+
+    if index > len(monitors):
+        if settings.Screen.PREFER_FIRST_MONITOR:
+            return 0
+        else:
+            return len(monitors) - 1
+    return index
+
