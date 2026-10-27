@@ -11,6 +11,8 @@ except ModuleNotFoundError as MNFE:
 def main():
 
     settings.loadConfig("config.json")
+    if settings.Dev.SHOW_SETTINGS:
+        settings.printSettings()
 
     POLL_RATE           = settings.System.POLL_RATE
     threshold           = settings.Image.THRESHOLD
@@ -19,11 +21,7 @@ def main():
     prev_img            = None
     running             = True
 
-    if settings.Dev.SHOW_SETTINGS:
-
-        settings.printSettings()
-
-    if __name__ == "__main__":
+       if __name__ == "__main__":
 
         monitors = utils.getMonitors()
 
@@ -37,13 +35,17 @@ def main():
             diff        = img.getImageDiff(screen,prev_img) if prev_img != None else 0  
 
             if prev_img == None or diff > threshold:
+                
                 prev_img    = screen
                 out         = img.OCR(screen,OCR_KEY)
                 text        = img.getMessage(out)
                 
                 for sentence in utils.splitSentences(text):
+                    if Dev.Language.DEBUG_LANGUGE:
+                        print(f"Text to be translated: {text}\n"
+                    
                     translation = tn.translateLanguage(TRANSLATION_KEY,sentence,'auto','en')
-                    print(f"Text to be translated: {text}\ntranslated text:{translation}")
+                    print(f"translated text:{translation}")
             else:
                 print(f"Last screengrab was too similar to the current one\n\nTHRESHOLD: {threshold} | DIFF: {diff}")
 
