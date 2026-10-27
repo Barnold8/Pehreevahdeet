@@ -25,11 +25,19 @@ def main():
     prev_img            = None
     running             = True
     run_ocr             = True
-
+    clear_count         = 0    # Make these two into settings
+    clear_max           = 10
+    
     if __name__ == "__main__": 
 
         while(settings.Dev.RUN_COUNT > 0):
-
+           
+            if settings.System.CLEAR_TERMINAL:
+                clear_count += 1
+                if clear_count > clear_max:
+                    clear_max = 0
+                    utils.clearTerminal()
+                
             utils.sleepInNano(POLL_RATE) # free up cpu usage
             if settings.Dev.LIMITED_RUN:
                 settings.Dev.RUN_COUNT -= 1

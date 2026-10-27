@@ -7,11 +7,12 @@ from utils import errPrint
 
 def translateLanguage(api_key: str,input_text: str,source_lang: str,target_lang: str)->str:
 
+    if settings.Dev.DEBUG_LANGUAGE:
     # check if cooldown, if so, sleep
     wd.Watchdog.attemptSleep(Eye.TRANSLATION) 
 
     API_URL     = "https://multi-format-ai-translator-the-most-complete.p.rapidapi.com/translate"
-    ERR_MESG    = "Could not translate text. Don't see any errors? Enable show"
+    ERR_MESG    = "Could not translate text. Don't see any errors? Enable show warnings in the config file"
     querystring = {"source":source_lang,"target":target_lang}
 
     payload = input_text 

@@ -32,6 +32,8 @@ class Image:
 
 class Language:
 
+    TARGET_LANGUAGE = 'en'
+
     def load(content:dict):
 
         try:
@@ -46,11 +48,13 @@ class Language:
 
 class System:
     POLL_RATE            = 50 
+    API_COOLDOWN         = True
+    CLEAR_TERMINAL       = True
 
     def load(content:dict):
-        System.POLL_RATE     = content["poll_rate"] if content["poll_rate"] > 0 else 50
-        System.API_COOLDOWN  = content["api_cooldown"]
-
+        System.POLL_RATE      = content["poll_rate"] if content["poll_rate"] > 0 else 50
+        System.API_COOLDOWN   = content["api_cooldown"]
+        System.CLEAR_TERMINAL = content["clear_terminal"]
 
 class Dev:
     SHOW_WARNINGS        = True
@@ -131,7 +135,7 @@ Screen
 {line}
 
     Monitor Index:          {Screen.MONITOR_INDEX}
-    Prefer First Monitor:   {Screen.PREFER_FIRST_MONITOR}
+    Prefer  First Monitor:  {Screen.PREFER_FIRST_MONITOR}
 
 Image
 {line}
@@ -146,6 +150,11 @@ Language
 
     Target Language:        {Language.TARGET_LANGUAGE}
 
+System
+
+    Poll  Rate:             {System.POLL_RATE}
+    API   Cooldown          {System.API_COOLDOWN}
+    Clear Terminal          {System.CLEAR_TERMINAL}
 Dev
 {line}
 

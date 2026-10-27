@@ -1,28 +1,30 @@
 {
   "screen":{
-	"monitor_index": -1,
-  	"prefer_first_monitor" : false
+	"monitor_index": 0,
+  	"prefer_first_monitor" : true
   },
   "image":{
- 	"screenshot_area"		: [-2,-1],
-	"x_offset"       		: -1000,
-	"y_offset"	 		: -12,
-  	"image_difference_threshold"	: -1
+ 	"screenshot_area"		: [1920,1080],
+	"x_offset"       		: 0,
+	"y_offset"	 		: 0,
+  	"image_difference_threshold"	: 50
   },
   "language":{
-	"target_language": "aaaaaaaaaaaa"
+	"target_language": "en"
   },
   "system":{
-	"poll_rate":-100,
-	"api_cooldown": true
+	"poll_rate":50,
+	"api_cooldown": true,
+	"chunk_amount": 10,
+	"clear_terminal": true
   },
   "dev": {
-	"show_warnings": true,
+	"show_warnings": false,
 	"show_screengrabs":false,
 	"show_settings":false,
 	"limited_run": false,
-	"run_count": -100,
-	"debug_language": true,
+	"run_count": 2,
+	"debug_language": false,
 	"debug_watchdog": false,
 	"debug_image": false
   }

@@ -1,6 +1,7 @@
 import sys
 import screeninfo
 import time
+import os
 import settings
 from typing import List
 
@@ -49,3 +50,7 @@ def splitSentences(sentences: List [str],chunk_amount: int = 10)-> List[str]:
         strings.append("".join(str_buffer))
 
     return strings
+
+def clearTerminal()->None:
+
+    os.system('cls' if os.name == 'nt' else 'clear')
