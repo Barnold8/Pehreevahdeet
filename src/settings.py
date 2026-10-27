@@ -153,7 +153,9 @@ Dev
     SHOW_SCREENGRABS:       {Dev.SHOW_SCREENGRABS}
     SHOW_SETTINGS:          {Dev.SHOW_SETTINGS}
     LIMITED_RUN:            {Dev.LIMITED_RUN}
-    Debug  Language         {Dev.DEBUG_LANGUAGE}
+    DEBUG_LANGUAGE          {Dev.DEBUG_LANGUAGE}
+    DEBUG_WATCHDOG          {Dev.DEBUG_WATCHDOG}
+    DEBUG_IMAGE             {Dev.DEBUG_IMAGE}
     RUN_COUNT:              {Dev.RUN_COUNT}
 """)
 
