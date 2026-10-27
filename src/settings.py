@@ -390,15 +390,25 @@ def loadConfig(path:str) -> None:
 
             Screen.load(content["screen"])
 
-    if len(files) <= 0:
-        print(f"Warning: no files found in {path}")
-        return files
+            # Image
 
-    for img in files:
-        fPath = f"{path}/{img}"
-        images.append(Image.open(fPath))
+            Image.load(content["image"])
 
-    return images
+            # Language
+
+            Language.load(content["language"])
+
+            # System
+
+            System.load(content["system"])
+
+            # Dev
+
+            Dev.load(content["dev"])
+
+    except FileNotFoundError as FNFE:
+        if Dev.SHOW_WARNINGS:
+            print(f"loadConfig | Warning: {path} could not be found or the file could not be found. Program settings are staying as their default.")
 
 def printSettings():
 
