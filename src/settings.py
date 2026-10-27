@@ -22,6 +22,7 @@ class Dev:
     SHOW_SCREENGRABS     = False
     SHOW_SETTINGS        = False
     LIMITED_RUN          = False
+    DEBUG_LANGUAGE       = False
     RUN_COUNT            = 2
 
 
@@ -90,6 +91,7 @@ Language
 {line}   
 
     Target Language:        {Language.TARGET_LANGUAGE}
+    Debug  Language         {Language.DEBUG_LANGUAGE}
 
 Dev
 {line}
