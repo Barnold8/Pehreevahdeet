@@ -43,9 +43,9 @@ def main():
                 
                 for sentence in utils.splitSentences(text):
                     if settings.Dev.DEBUG_LANGUAGE:
-                        print(f"Text to be translated: {text}\n")
-                    
-                    translation = tn.translateLanguage(TRANSLATION_KEY,sentence,'auto','en')
+                        print(f"DEBUG: Text to be translated: {text}\n")
+                        print(f"DEBUG: Payload to be sent to translateLanguage function\n\nsentence:{sentence}\n\nsource_lang:'auto'\n\ntarget_lang: {settings.Language.TARGET_LANGUAGE}") 
+                    translation = tn.translateLanguage(TRANSLATION_KEY,sentence,'auto',settings.Language.TARGET_LANGUAGE)
                     print(f"translated text:{translation}")
             else:
                 if settings.Dev.DEBUG_LANGUAGE:
