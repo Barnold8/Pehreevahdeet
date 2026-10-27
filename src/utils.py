@@ -25,7 +25,7 @@ def getAPIKey(path:str)->str:
     except FileNotFoundError as FNFE:
         errPrint(f"getAPIKey | Error: {path} does not exist")
 
-def splitSentences(sentences: List [str],chunk_amount: int = 100)-> List[str]:
+def splitSentences(sentences: List [str],chunk_amount: int = 10)-> List[str]:
     # This function takes multiple sentences and makes them into one string
     # The intended outcome of this is to avoid rate limiting of the translation API with the caveat of some outputs being weird
 
